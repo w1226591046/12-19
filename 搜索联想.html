@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head id="head">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>百度一下，你就知道</title>
+   <style>
+       *{
+           margin: 0;
+           padding: 0;
+       }
+       #box{
+           width:500px;
+           height: 300px;
+           /* background: tomato; */
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           margin: 5% auto;
+       }
+       #box2{
+            width: 400px;
+            height: 50px;
+            background: yellowgreen;
+            display: flex;
+            justify-content: flex-start;
+            position: relative;
+       }
+       input{
+           width:300px;
+           font-size: 16px;
+           outline: none;
+           color: red;
+           border-color: skyblue;
+           padding-left: 10px;
+       }
+       p{
+           background: #3385ff;
+           text-align: center;
+           width: 100px;
+           height: 50px;
+           line-height: 50px;
+           cursor: pointer;
+           color: #fff;
+       }
+    #ul{
+        width: 299px;
+        /* height: 100px;  */
+        position:absolute;
+        top: 50px;
+        left: 0;
+        border:1px solid silver;
+        border-top: none;
+        list-style: none;
+    }
+    #ul li{
+        /* border-bottom: 1px solid silver; */
+        padding-left: 10px;
+        height: 30px;
+        line-height: 30px;
+        cursor: default;
+    }
+    #ul li:hover{
+        background: #f8f8f8;
+    }
+    .ac{
+        background-color: red;
+    }
+   </style>
+</head>
+<body>
+    <div id="box">
+        <div id="box2">
+            <input type="text" name="" id="txt">
+            <p id="p">百度一下</p>
+            <ul id="ul">
+            </ul>
+        </div>
+    </div>
+    <script>
+       
+       let num = 0;
+        txt.oninput  = function(){
+            let s = document.createElement('script');
+            s.src = `https://www.baidu.com/sugrec?pre=1&p=3&ie=utf-8&json=1&prod=pc&from=pc_web&sugsid=1461,21082,30210,30328,30284,26350&wd=${this.value}&cb=fn2`;
+            head.append(s);
+            s.remove();
+           
+        };
+        txt.onkeydown = function(ev){
+            if(ev.keyCode === 13){
+                window.open('https://www.baidu.com/s?ie=UTF-8&wd='+txt.value,'_blank')
+            }
+        }
+            function fn2(d){
+                let html = '';
+                let {g} = d;
+                if(!g){
+                    ul.innerHTML = '';
+                    return;
+                }
+                g.forEach((e)=>{
+                    html+=`<li>${e.q}</li>`
+                })
+                ul.innerHTML = html;
+                let lis = document.querySelectorAll('#ul li')
+        console.log(lis)
+        let num = -1;
+       document.onkeydown = function(ev){
+           if(ev.keyCode === 40){
+            num++
+            if(num>lis.length-1){
+                num = lis.length-1
+            }
+            lis[num].className = 'ac';
+            txt.value = lis[num].innerText;
+            if(num>0){
+                lis[num-1].className = '';
+            }
+           };
+           if(ev.keyCode === 38){
+             if(num > 0){
+                num--;
+                lis[num].className = 'ac';
+                txt.value = lis[num].innerText;
+               lis[num+1].className = '';
+             }
+           }
+          if(ev.keyCode === 13){
+             
+            window.open('https://www.baidu.com/s?ie=UTF-8&wd='+lis[num].innerText,'_blank')
+          }
+       }
+                ul.onclick = function(ev){
+                    console.log(ev.target)
+                if(ev.target.tagName === 'LI'){
+                    window.open('https://www.baidu.com/s?ie=UTF-8&wd='+ev.target.innerText,'_blank')
+                }
+            };
+            }
+           p.onclick = function(){
+            window.open('https://www.baidu.com/s?ie=UTF-8&wd='+txt.value,'_blank')
+           }
+    </script>
+</body>
+</html>

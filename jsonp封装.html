@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+         *{
+           margin: 0;
+           padding: 0;
+       }
+       #box{
+           width:500px;
+           height: 300px;
+           /* background: tomato; */
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           margin: 5% auto;
+       }
+       #box2{
+            width: 400px;
+            height: 50px;
+            background: yellowgreen;
+            display: flex;
+            justify-content: flex-start;
+            position: relative;
+       }
+       input{
+           width:300px;
+           font-size: 16px;
+           outline: none;
+           color: red;
+           border-color: skyblue;
+       }
+       p{
+           background: #3385ff;
+           text-align: center;
+           width: 100px;
+           height: 50px;
+           line-height: 50px;
+           cursor: pointer;
+           color: #fff;
+       }
+    #ul{
+        width: 299px;
+        /* height: 100px;  */
+        position:absolute;
+        top: 50px;
+        left: 0;
+        border:1px solid silver;
+        border-top: none;
+        list-style: none;
+    }
+    #ul li{
+        /* border-bottom: 1px solid silver; */
+        padding-left: 10px;
+        height: 30px;
+        line-height: 30px;
+        cursor: default;
+    }
+    #ul li:hover{
+        background: #f8f8f8;
+    }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <div id="box2">
+            <input type="text" name="" id="txt">
+            <p id="p">百度一下</p>
+            <ul id="ul">
+            </ul>
+        </div>
+    </div>
+    <script>
+        function jsonp(data,cb='callback'){
+            //默认值
+            let opt = {
+                url:'',
+                data:{},
+                success:function(){}
+            }
+            //继承data的属性
+            Object.assign(opt,data)
+        let options = '';
+        let ary = [];
+        //转化成字段push到数组中
+        for(let attr in opt.data){
+            ary.push(attr + '=' + opt.data[attr]);
+        };
+        options = ary.join('&');
+        //添加script标签
+        let os = document.createElement('script');
+        //随机生成函数名
+        let fnName = 'jQuery_' + Date.now();
+        //把这个函数名挂到window上
+        window[fnName] = function(d){
+            opt.success(d);
+        }
+        //script的src=等于请求的网址
+        os.src = opt.url + '?' + options + '&' + cb + '=' + fnName;
+        document.getElementsByTagName('head')[0].appendChild(os);
+        os.remove();
+
+        }
+       p.onclick = function(){
+        window.open('https://www.baidu.com/s?ie=UTF-8&wd='+txt.value,'_blank');
+       }
+        txt.onkeyup = function(){
+            //jsonp传参执行
+            //配置属性
+            jsonp({
+                url:'https://www.baidu.com/sugrec',
+                data:{
+                    wd:this.value,
+                    prod:'pc'
+                },
+                success(data){
+                    const {g} = data;
+                    let html = '';
+                    if(!g){
+                        ul.innerHTML= '';
+                        return                    };
+                        g.forEach(({q})=>{
+                            html += `<li>${q}</li>`
+                        });
+                        ul.innerHTML = html;
+                        ul.onclick = function(ev){
+                            if(ev.target.tagName === 'LI'){
+                                window.open('https://www.baidu.com/s?ie=UTF-8&wd='+ev.target.innerText,'_blank'); 
+                            }
+                        }
+                }
+            },'cb')
+        }
+    </script>
+</body>
+</html>

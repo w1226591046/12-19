@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head id="head">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #ul{
+            width: 500px;
+            margin: 0 auto;
+            list-style: none;
+        }
+        #ul li{
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+        }
+        #ul li:nth-child(even){
+            background-color:violet;
+        }
+        #ul li:nth-child(odd){
+            background-color:skyblue;
+        }
+    </style>
+</head>
+<body>
+    <ul id="ul"></ul>
+    <script>
+        document.onclick = function(){
+            let s = document.createElement('script');//创建script标签
+            s.src = 'https://www.baidu.com/sugrec?pre=1&p=3&ie=utf-8&json=1&prod=pc&from=pc_web&sugsid=1461,21082,30210,30328,30284,26350&wd=dnf&cb=fn2';//script的src指向一个路径网址
+            head.append(s);//添加到head标签中
+            s.remove();//每次添加之后都要删除
+        }
+        function fn2(a){
+           let html = '';
+           let {g} = a;
+          g.forEach((e)=>{//循环拿到的数组怼进去
+              html+=`<li>${e.q}</li>`;
+          })
+          ul.innerHTML = html;
+        }
+    </script>
+</body>
+</html>

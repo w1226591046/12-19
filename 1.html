@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #box{
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        #ul{
+            width: 200px;
+            border:1px solid olivedrab;
+            margin: 0 auto;
+            list-style: none;
+        }
+        #ul li{
+            width: 200px;
+            height: 30px;
+           border-bottom: 1px solid oldlace;
+        }
+        .ac{
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+
+    <ul id="ul">
+       <li></li>
+       <li>lol</li>
+       <li></li>
+       <li></li>
+       <li></li>
+    </ul>
+    <script>
+        let lis = document.querySelectorAll('#ul li')
+        console.log(lis)
+        let num = -1;
+       document.onkeydown = function(ev){
+           if(ev.keyCode === 40){
+            num++
+            if(num>lis.length-1){
+                num = lis.length-1
+            }
+            lis[num].className = 'ac';
+            if(num>0){
+                lis[num-1].className = '';
+            }
+           };
+           if(ev.keyCode === 38){
+               
+             if(num > 0){
+                num--;
+                lis[num].className = 'ac';
+               lis[num+1].className = '';
+                
+             }
+           }
+          if(ev.keyCode === 13){
+            window.open('https://www.baidu.com/s?ie=UTF-8&wd='+lis[num].innerText,'_blank')
+          }
+       }
+        
+    </script>
+</body>
+</html>
